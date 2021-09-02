@@ -1,40 +1,32 @@
 
 public class MergeSort {
-	private int[] inputArray;
-	private int[] tempArray;
-	private int length;
 
 	public static void main(String a[]) {
-		int[] inputArray = { 67, 89, 32, 76, 41, 99, 12, 05, 40, 53 };
+		Integer[] inputArray = { 67, 89, 32, 76, 41, 99, 12, 05, 40, 53 };
 		System.out.println("Array before sorting ");
 		for (int i = 0; i < inputArray.length; i++) {
-			System.out.print(inputArray[i]+" ");
+			System.out.print(inputArray[i] + " ");
 		}
 		MergeSort mergeSort = new MergeSort();
-		mergeSort.sort(inputArray);
+		mergeSort.mergeSort(inputArray, 0, inputArray.length - 1);
 		System.out.println("Array after sorting is ");
 		for (int i : inputArray) {
-			System.out.print(i+" ");
+			System.out.print(i + " ");
 		}
 	}
 
-	public void sort(int inputArray[]) {
-		this.inputArray = inputArray;
-		this.length = inputArray.length;
-		this.tempArray = new int[length];
-		mergeSort(0, length - 1);
-	}
-
-	private void mergeSort(int lowIndex, int highIndex) {
+	private <T extends Comparable<T>> void mergeSort(T[] inputArray, int lowIndex, int highIndex) {
 		if (lowIndex < highIndex) {
 			int middle = lowIndex + (highIndex - lowIndex) / 2;
-			mergeSort(lowIndex, middle);
-			mergeSort(middle + 1, highIndex);
-			merge(lowIndex, middle, highIndex);
+			mergeSort(inputArray, lowIndex, middle);
+			mergeSort(inputArray, middle + 1, highIndex);
+			merge(inputArray, lowIndex, middle, highIndex);
 		}
 	}
 
-	private void merge(int lowIndex, int middle, int highIndex) {
+	private <T extends Comparable<T>> void merge(T[] inputArray, int lowIndex, int middle, int highIndex) {
+
+		T tempArray[] = (T[]) new Object[highIndex - lowIndex + 1];
 		for (int i = lowIndex; i <= highIndex; i++) {
 			tempArray[i] = inputArray[i];
 		}
@@ -42,7 +34,7 @@ public class MergeSort {
 		int j = middle + 1;
 		int k = lowIndex;
 		while (i <= middle && j <= highIndex) {
-			if (tempArray[i] <= tempArray[j]) {
+			if ((tempArray[i].compareTo(tempArray[j])) <= 0) {
 				inputArray[k] = tempArray[i];
 				i++;
 			} else {
